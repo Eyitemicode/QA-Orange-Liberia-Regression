@@ -24,8 +24,8 @@ jobs:
             -r html \
             --reporter-html-export report.html
 
-      - name: Upload Test Report
+      - name: Upload HTML Report
         uses: actions/upload-artifact@v3
         with:
-          name: api-test-report
+          name: newman-html-report
           path: report.html
