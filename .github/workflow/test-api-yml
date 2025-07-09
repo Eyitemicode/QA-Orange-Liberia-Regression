@@ -1,0 +1,31 @@
+name: Run API Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Newman
+        run: npm install -g newman newman-reporter-html
+
+      - name: Run API Tests
+        run: |
+          newman run "RETAILCODE ORANGE LIBERIA.postman_collection.json" \
+            -e "Retailcode Orange Liberia Dev Copy.postman_environment.json" \
+            -r html \
+            --reporter-html-export report.html
+
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: api-test-report
+          path: report.html
